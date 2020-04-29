@@ -1,0 +1,49 @@
+version: '3.6'
+services:
+  photoshow:
+    container_name: photoshow
+    env_file: .env
+    environment:
+
+# Uncomment for nginx proxy
+#      VIRTUAL_HOST: ${PHOTOSHOW_VIRTUAL_HOST}
+#      NETWORK_ACCESS: internal
+
+      TZ: ${TIMEZONE}
+      PUID: 1000
+      PGID: 1000
+    volumes:
+      - photoshow_config:/config
+      - photoshow_pictures:/Pictures
+      - photoshow_thumbs:/Thumbs
+    restart: unless-stopped
+
+# Uncomment for nginx proxy
+#    networks:
+#      proxy_net:
+#        aliases:
+#          - photos
+    ports:
+      - "8910:80"
+
+    # This is needed if we want to use nginx-proxy
+    expose:
+      - "80"
+    image: linuxserver/photoshow:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.photoshow
+
+volumes:
+  photoshow_config:
+    name: photoshow_config
+  photoshow_pictures:
+    name: photoshow_pictures
+  photoshow_thumbs:
+    name: photoshow_thumbs
+
+# Uncomment for nginx proxy
+#networks:
+#  proxy_net:
+#    name: proxy_net
+#    external: true
