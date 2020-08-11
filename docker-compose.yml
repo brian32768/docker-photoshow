@@ -14,7 +14,7 @@ services:
       PGID: 1000
     volumes:
       - photoshow_config:/config
-      - photoshow_pictures:/Pictures
+      - /media/photoshow:/Pictures
       - photoshow_thumbs:/Thumbs
     restart: unless-stopped
 
@@ -37,8 +37,6 @@ services:
 volumes:
   photoshow_config:
     name: photoshow_config
-  photoshow_pictures:
-    name: photoshow_pictures
   photoshow_thumbs:
     name: photoshow_thumbs
 
