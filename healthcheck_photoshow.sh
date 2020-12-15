@@ -15,6 +15,9 @@ done
 
 # Now let's make sure there is a web server running in the docker
 
-curl --fail -s http://giscache.co.clatsop.or.us:8910/ || echo `hostname` photoshow webserver not running || exit 1
+# -L causes curl to follow the redirect
+# so it checks on both the proxy and on the photoshow server
+
+curl -L --fail -s http://giscache.co.clatsop.or.us/photoshow/ || echo `hostname` photoshow webserver not running || exit 1
 
 exit 0
