@@ -12,9 +12,15 @@ volumes:
 
 services:
   photoshow:
+    image: linuxserver/photoshow:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.photoshow
     env_file: .env
     environment:
-# Uncomment for nginx proxy
+# Uncomment for nginx proxy,
+# we don't use this
+# instead we use https://giscache/photoshow/
 #      VIRTUAL_HOST: ${PHOTOSHOW_VIRTUAL_HOST}
 #      VIRTUAL_HOST: ${PHOTOSHOW_VIRTUAL_PORT}
 #      NETWORK_ACCESS: internal
@@ -25,17 +31,25 @@ services:
       - photoshow_config:/config
       - /media/photoshow:/Pictures
       - photoshow_thumbs:/Thumbs
-#    restart: unless-stopped
-
+# For development only, make the server visible to a browser
+#    ports:
+#      - "8001:80"
+    expose:
+      - 80
     networks:
       proxy_net:
         aliases:
           - photoshow
-
-    image: linuxserver/photoshow:latest
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.photoshow
-
-
-
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 15s
+        max_attempts: 10
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
