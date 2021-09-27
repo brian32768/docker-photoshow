@@ -12,7 +12,7 @@ volumes:
 
 services:
   photoshow:
-    image: linuxserver/photoshow:latest
+    image: ghcr.io/linuxserver/photoshow:latest
 #    build:
 #      context: .
 #      dockerfile: Dockerfile.photoshow
@@ -34,8 +34,6 @@ services:
 # For development only, make the server visible to a browser
 #    ports:
 #      - "8001:80"
-    expose:
-      - 80
     networks:
       proxy_net:
         aliases:
@@ -48,7 +46,7 @@ services:
         window: 15s
         max_attempts: 10
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      test: ["CMD", "/usr/bin/curl", "-f", "http://localhost:80/"]
       interval: 10s
       timeout: 10s
       retries: 3
