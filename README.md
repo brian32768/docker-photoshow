@@ -49,7 +49,13 @@ to the local folder, edit and copy back.
 
 ## Run it
 
+This won't work yet, because of the container name problem in the proxy nginx.
+
     docker stack deploy -c docker-compose.yml photoshow
+
+so do the old fashioned thing
+
+    docker-compose up -d
 
 ## Healthcheck
 

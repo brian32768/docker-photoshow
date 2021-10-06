@@ -17,6 +17,6 @@ done
 # -L causes curl to follow the redirect
 # so it checks on both the proxy and on the photoshow server
 
-/usr/bin/curl -L --fail -s http://giscache.co.clatsop.or.us/photoshow/ > /dev/null || echo `hostname` photoshow webserver not running || exit 1
+/usr/bin/curl -L --fail -s https://giscache.co.clatsop.or.us/photoshow/ > /dev/null || echo `hostname` photoshow webserver not running https://giscache.co.clatsop.or.us/photoshow || exit 1
 
 exit 0

@@ -12,17 +12,14 @@ volumes:
 
 services:
   photoshow:
-    image: ghcr.io/linuxserver/photoshow:latest
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.photoshow
+    image: linuxserver/photoshow:latest
     env_file: .env
     environment:
 # Uncomment for nginx proxy,
-# we don't use this
+# we don't use this set up anymore, 
 # instead we use https://giscache/photoshow/
 #      VIRTUAL_HOST: ${PHOTOSHOW_VIRTUAL_HOST}
-#      VIRTUAL_HOST: ${PHOTOSHOW_VIRTUAL_PORT}
+#      VIRTUAL_PORT: ${PHOTOSHOW_VIRTUAL_PORT}
 #      NETWORK_ACCESS: internal
       TZ: ${TIMEZONE}
       PUID: 1000
@@ -31,23 +28,27 @@ services:
       - photoshow_config:/config
       - /media/photoshow:/Pictures
       - photoshow_thumbs:/Thumbs
-# For development only, make the server visible to a browser
-#    ports:
-#      - "8001:80"
     networks:
       proxy_net:
         aliases:
           - photoshow
-    deploy:
-      mode: global
-      restart_policy:
-        condition: any
-        delay: 5s
-        window: 15s
-        max_attempts: 10
-    healthcheck:
-      test: ["CMD", "/usr/bin/curl", "-f", "http://localhost:80/"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+
+    # for docker-compose	  
+    restart: unless-stopped
+
+    # for swarm
+    #deploy:
+    #  mode: global
+    #  restart_policy:
+    #    condition: any
+    #    delay: 5s
+    #    window: 15s
+    #    max_attempts: 10
+    
+# There is a separate cron job running in the host
+#    healthcheck:
+#      test: ["CMD", "/usr/bin/curl", "-f", "http://localhost:80/"]
+#      interval: 10s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 30s
