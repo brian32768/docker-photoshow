@@ -1,4 +1,5 @@
-version: '3.6'
+version: '3.7'
+
 networks:
   proxy_net:
     name: proxy_net
@@ -30,8 +31,7 @@ services:
       - photoshow_thumbs:/Thumbs
     networks:
       proxy_net:
-        aliases:
-          - photoshow
+        ipv4_address: ${STATIC_IP_ADDRESS}
 
     # for docker-compose	  
     restart: unless-stopped

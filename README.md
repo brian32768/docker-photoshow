@@ -21,6 +21,8 @@ Copy sample.env to .env and edit it with your own information.
 
 Admin password forgetten? Look in .env
 
+Make sure the static ip address matches the setting in the reverse proxy.
+
 ### Volumes
 
 The first time you run, docker will create volumes
